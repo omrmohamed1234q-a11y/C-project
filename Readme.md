@@ -38,7 +38,7 @@ The system is built using Object-Oriented Programming principles to ensure scala
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/your-username/workspace-booking-system.git
+git clone https://github.com/omrmohamed1234q-a11y/C-project.git
 
 # 2. Navigate into the project directory
 cd workspace-booking-system
@@ -78,36 +78,3 @@ workspace-booking-system/
 ├── main.cpp           # Entry point
 └── README.md
 ```
-
----
-
-## Contributing
-
-Contributions are welcome.
-
-1. Fork the repository
-2. Create a new branch
-
-   ```bash
-   git checkout -b feature-name
-   ```
-3. Make your changes
-4. Commit your work
-
-   ```bash
-   git commit -m "Add new feature"
-   ```
-5. Push to your branch
-
-   ```bash
-   git push origin feature-name
-   ```
-6. Open a Pull Request
-
----
-
-## License
-
-This project is licensed under the MIT License.
-You are free to use, modify, and distribute this project with proper attribution.
-
