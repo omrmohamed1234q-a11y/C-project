@@ -2,7 +2,8 @@
 #define COSTUMER_H
 # include <iostream>
 # include <string>
-#include "Users.h"
+#include "../users/users.h"
+
 using namespace std;
 class Custumer : public Users {
 public:
