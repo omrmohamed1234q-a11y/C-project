@@ -1,7 +1,6 @@
 #ifndef OWNER_H
 #define OWNER_H
 #include <iostream>
-#include <memory>
 #include <string>
 #include "../users/users.h"
 #include "../core/Workspace.hpp"
@@ -12,7 +11,7 @@ public:
     Owner(string e, string p, string r);
     Owner(string n, string e, string p, string r);
 
-    void addRoom(Workspace& workspace, shared_ptr<Room> room);
+    void addRoom(Workspace& workspace, Room room);
     void editRoom(Workspace& workspace, int roomId, double newPrice, string newDetails);
     void deleteRoom(Workspace& workspace, int roomId);
     void viewStats(const Workspace& workspace)const;

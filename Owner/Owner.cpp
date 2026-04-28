@@ -1,16 +1,17 @@
 # include "Owner.h"
+#include "../core/Workspace.hpp"
 Owner::Owner():Users(){};
 Owner::Owner(string e, string p, string r) : Users(e, p, r) {
 }
 Owner::Owner(string n, string e, string p, string r) : Users(n, e, p, r) {
 }
-void Owner::addRoom(Workspace& workspace, shared_ptr<Room> room) {
+void Owner::addRoom(Workspace& workspace, Room room) {
     workspace.addRoom(room);
-    cout << "Owner added room " << room->getId() << "." << endl;
+    cout << "Owner added room " << room.getId() << "." << endl;
 }
 
 void Owner::editRoom(Workspace& workspace, int roomId, double newPrice, string newDetails) {
-    shared_ptr<Room> room = workspace.searchRooms(roomId);
+    Room* room = workspace.searchRooms(roomId);
     if (room == nullptr) {
         cout << "Room not found." << endl;
         return;
@@ -22,15 +23,12 @@ void Owner::editRoom(Workspace& workspace, int roomId, double newPrice, string n
 }
 
 void Owner::deleteRoom(Workspace& workspace, int roomId) {
-    if (workspace.removeRoom(roomId)) {
-        cout << "Owner deleted room " << roomId << "." << endl;
-    } else {
-        cout << "Room not found." << endl;
-    }
+    workspace.removeRoom(roomId);
+    cout << "Owner deleted room " << roomId << "." << endl;
 }
 
 void Owner::viewStats(const Workspace& workspace) const {
     cout << "Owner is viewing stats." << endl;
     cout << "Workspace name: " << workspace.getName() << endl;
-    cout << "Number of rooms: " << workspace.getRooms().size() << endl;
+    workspace.getRooms();
 }
