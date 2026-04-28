@@ -4,7 +4,7 @@
 using namespace std;
 
 class Room {
-    private:  
+    private:
         int id ;
         double price;
         string details;
@@ -15,8 +15,9 @@ class Room {
     public:
         Room();
         Room(int tag ,string name , string t ,bool situation ,double p ,string detail);
+        virtual ~Room() {}
         void setAvailable(bool av);
-        bool isAvailable();
+        bool isAvailable() const;
         void setId(int tag);
         void setPrice(double p);
         void setDetails(string detail);
@@ -25,9 +26,10 @@ class Room {
         int getId()const;
         double getPrice()const;
         string getWorkspaceName()const;
-        string getDetails()const;
+        string getType() const;
+        virtual string getDetails()const;
         bool book();
         bool cancelBooking();
-        double calculatePrice(double hour);
-        void displayInfo() const ;
+        virtual double calculatePrice(double hour) const;
+        virtual void displayInfo() const ;
 };

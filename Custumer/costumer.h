@@ -2,17 +2,22 @@
 #define COSTUMER_H
 # include <iostream>
 # include <string>
+#include <vector>
 #include "../users/users.h"
+#include "../core/Workspace.hpp"
 
 using namespace std;
 class Custumer : public Users {
+private:
+    vector<int> bookings;
 public:
     Custumer();
     Custumer(string e, string p, string r);
+    Custumer(string n, string e, string p, string r);
 
-    void bookRoom();
-    void cancelBooking();
+    void bookRoom(Workspace& workspace, int roomId);
+    void cancelBooking(Workspace& workspace, int roomId);
     void viewBookings() const;
-    void updateProfile(string e, string p, string r);
+    void updateProfile(string n, string e, string p, string r);
 };
 #endif

@@ -23,7 +23,7 @@ void Room::setAvailable(bool av) {
     Available = av;
 }
 
-bool Room::isAvailable() {
+bool Room::isAvailable() const {
     return Available;
 }
 
@@ -59,6 +59,10 @@ string Room::getWorkspaceName() const {
     return workspaceName;
 }
 
+string Room::getType() const {
+    return type;
+}
+
 string Room::getDetails() const {
     return details;
 }
@@ -85,7 +89,7 @@ bool Room::cancelBooking() {
     }
 }
 
-double Room::calculatePrice(double hour) {
+double Room::calculatePrice(double hour) const {
     return price * hour;
 }
 
