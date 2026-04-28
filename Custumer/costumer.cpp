@@ -1,4 +1,7 @@
 # include "costumer.h"
+# include <memory>
+#include "../core/Workspace.hpp"
+
 Custumer::Custumer():Users(){};
 Custumer::Custumer(string e, string p, string r) : Users(e, p, r) {
 }
@@ -6,7 +9,7 @@ Custumer::Custumer(string n, string e, string p, string r) : Users(n, e, p, r) {
 }
 void Custumer::bookRoom(Workspace& workspace, int roomId) {
     Room* room = workspace.searchRooms(roomId);
-    if (room == NULL) {
+    if (room == nullptr) {
         cout << "Room not found." << endl;
         return;
     }
@@ -18,7 +21,7 @@ void Custumer::bookRoom(Workspace& workspace, int roomId) {
 
 void Custumer::cancelBooking(Workspace& workspace, int roomId) {
     Room* room = workspace.searchRooms(roomId);
-    if (room == NULL) {
+    if (room == nullptr) {
         cout << "Room not found." << endl;
         return;
     }
