@@ -2,14 +2,14 @@
 #define COSTUMER_H
 # include <iostream>
 # include <string>
-#include <vector>
 #include "../users/users.h"
 #include "../core/Workspace.hpp"
 
 using namespace std;
 class Custumer : public Users {
 private:
-    vector<int> bookings;
+    int bookings[100];
+    int bookingCount;
 public:
     Custumer();
     Custumer(string e, string p, string r);

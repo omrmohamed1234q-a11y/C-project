@@ -23,6 +23,5 @@ public:
     string getPassword() const;
     string getRole() const;
     void displayUser() const;
-
 };
 #endif

@@ -1,4 +1,5 @@
 #include "Users.h"
+
 Users::Users() {
     name = "";
     email = "";
@@ -47,6 +48,7 @@ void Users::setPassword(string p) {
 void Users::setRole(string r) {
     role = r;
 }
+
 void Users::displayUser() const {
-    cout << "Name: " << name << ", Email: " << email << ", Role: " << role << endl;
+    cout << name << " " << email << " " << password << " " << role << endl;
 }
