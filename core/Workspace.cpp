@@ -2,10 +2,16 @@
 
 Workspace::Workspace() {
     name = "";
+    roomCount = 0;
+    serviceCount = 0;
+    feedbackCount = 0;
 }
 
 Workspace::Workspace(string n) {
     name = n;
+    roomCount = 0;
+    serviceCount = 0;
+    feedbackCount = 0;
 }
 
 void Workspace::setName(string n) {
@@ -16,44 +22,67 @@ string Workspace::getName() const {
     return name;
 }
 
-void Workspace::addRoom(shared_ptr<Room> room) {
-    rooms.push_back(room);
+void Workspace::addRoom(Room room) {
+    if (roomCount < 100) {
+        rooms[roomCount] = room;
+        roomCount++;
+        cout << "room added successfully \n";
+    } else {
+        cout << "no space for more rooms \n";
+    }
 }
 
-bool Workspace::removeRoom(int id) {
-    for (int i = 0; i < static_cast<int>(rooms.size()); i++) {
-        if (rooms[i]->getId() == id) {
-            rooms.erase(rooms.begin() + i);
-            return true;
+void Workspace::removeRoom(int id) {
+    for (int i = 0; i < roomCount; i++) {
+        if (rooms[i].getId() == id) {
+            for (int j = i; j < roomCount - 1; j++) {
+                rooms[j] = rooms[j + 1];
+            }
+            roomCount--;
+            cout << "room removed successfully \n";
+            return;
         }
     }
-    return false;
+    cout << "room not found \n";
 }
 
-shared_ptr<Room> Workspace::searchRooms(int id) const {
-    for (int i = 0; i < static_cast<int>(rooms.size()); i++) {
-        if (rooms[i]->getId() == id) {
-            return rooms[i];
+Room* Workspace::searchRooms(int id) {
+    for (int i = 0; i < roomCount; i++) {
+        if (rooms[i].getId() == id) {
+            return &rooms[i];
         }
     }
-    return nullptr;
+    return NULL;
 }
 
-vector<shared_ptr<Room> > Workspace::getRooms() const {
-    return rooms;
+void Workspace::getRooms() const {
+    if (roomCount == 0) {
+        cout << "no rooms found \n";
+        return;
+    }
+
+    for (int i = 0; i < roomCount; i++) {
+        rooms[i].displayInfo();
+    }
 }
 
 void Workspace::addService(string service) {
-    services.push_back(service);
+    if (serviceCount < 100) {
+        services[serviceCount] = service;
+        serviceCount++;
+    }
 }
 
-void Workspace::addFeedback(string note) {
-    feedback.push_back(note);
+void Workspace::addFeedback(string feedback) {
+    if (feedbackCount < 100) {
+        feedbacks[feedbackCount] = feedback;
+        feedbackCount++;
+    }
 }
 
 void Workspace::displayWorkspace() const {
-    cout << "Workspace: " << name << endl;
-    cout << "Rooms count: " << rooms.size() << endl;
-    cout << "Services count: " << services.size() << endl;
-    cout << "Feedback count: " << feedback.size() << endl;
+    cout << "Workspace Name: " << name << endl;
+    cout << "Rooms: " << roomCount << endl;
+    cout << "Services: " << serviceCount << endl;
+    cout << "Feedbacks: " << feedbackCount << endl;
 }
