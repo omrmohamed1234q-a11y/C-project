@@ -1,0 +1,1 @@
+1,room1,basic,0,100,basic_room_with_internet,30,5

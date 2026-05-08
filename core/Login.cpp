@@ -33,7 +33,7 @@ void Login::registerUser(){
     
 }
 
-bool Login::login(){
+bool Login::login(string& outUsername, string& outRole){
     string username;
     string password;
     cout << "enter username : " ;
@@ -59,6 +59,8 @@ bool Login::login(){
         string role = read.substr(x2 + 1);
 
         if(usr == username && pass == password){
+            outUsername = usr;
+            outRole = role;
             done = true;
             break;
         }

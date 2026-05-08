@@ -3,6 +3,8 @@
 
 Room::Room() {
     id = 0;
+    capacity = 0;
+    occupied = 0;
     workspaceName = "";
     type = "";
     Available = true;
@@ -10,13 +12,15 @@ Room::Room() {
     price = 0.0;
 }
 
-Room::Room(int tag, string name, string t, bool situation, double p, string detail) {
+Room::Room(int tag, string name, string t, bool situation, double p, string detail, int cap, int occ) {
     id = tag;
     workspaceName = name;
     type = t;
     Available = situation;
     price = p;
     details = detail;
+    capacity = cap;
+    occupied = occ;
 }
 
 void Room::setAvailable(bool av) {
@@ -47,8 +51,24 @@ void Room::setType(string t) {
     type = t;
 }
 
+void Room::setCapacity(int cap) {
+    capacity = cap;
+}
+
 int Room::getId() const {
     return id;
+}
+
+int Room::getCapacity() const {
+    return capacity;
+}
+
+void Room::setOccupied(int occ) {
+    occupied = occ;
+}
+
+int Room::getOccupied() const {
+    return occupied;
 }
 
 double Room::getPrice() const {
@@ -68,24 +88,50 @@ string Room::getDetails() const {
 }
 
 bool Room::book() {
-    if (Available) {
-        Available = false;
-        cout << "room " << id << " booked successfully \n";
-        return true;
+    if (capacity > 0) {
+        if (occupied < capacity) {
+            occupied++;
+            if (occupied == capacity) {
+                Available = false;
+            }
+            cout << "room " << id << " booked successfully \n";
+            return true;
+        } else {
+            cout << "room " << id << " is full (capacity reached) \n";
+            return false;
+        }
     } else {
-        cout << "room " << id << " is already booked \n";
-        return false;
+        if (Available) {
+            Available = false;
+            cout << "room " << id << " booked successfully \n";
+            return true;
+        } else {
+            cout << "room " << id << " is already booked \n";
+            return false;
+        }
     }
 }
 
 bool Room::cancelBooking() {
-    if (!Available) {
-        Available = true;
-        cout << "room " << id << " is canceled \n";
-        return true;
+    if (capacity > 0) {
+        if (occupied > 0) {
+            occupied--;
+            Available = true;
+            cout << "room " << id << " booking canceled \n";
+            return true;
+        } else {
+            cout << "room " << id << " has no bookings to cancel \n";
+            return false;
+        }
     } else {
-        cout << "room " << id << " is not booked \n";
-        return false;
+        if (!Available) {
+            Available = true;
+            cout << "room " << id << " is canceled \n";
+            return true;
+        } else {
+            cout << "room " << id << " is not booked \n";
+            return false;
+        }
     }
 }
 
@@ -94,5 +140,5 @@ double Room::calculatePrice(double hour) const {
 }
 
 void Room::displayInfo() const {
-    cout << "Room ID: " << id << ", Name: " << workspaceName << ", Type: " << type << ", Price per hour: " << price << ", Details: " << details << ", Available: " << (Available ? "Yes" : "No") << endl;
+    cout << "Room ID: " << id << ", Name: " << workspaceName << ", Type: " << type << ", Capacity: " << capacity << ", Occupied: " << occupied << ", Price per hour: " << price << ", Details: " << details << ", Available: " << (Available ? "Yes" : "No") << endl;
 }

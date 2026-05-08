@@ -1,9 +1,9 @@
 #include "RoomTypes.hpp"
-
+/*
 BasicRoom::BasicRoom() : Room() {}
 
-BasicRoom::BasicRoom(int tag, string name, bool situation, double p, string detail)
-    : Room(tag, name, "Basic", situation, p, detail) {
+BasicRoom::BasicRoom(int tag, string name, bool situation, double p, string detail, int cap)
+    : Room(tag, name, "Basic", situation, p, detail, cap) {
 }
 
 double BasicRoom::calculatePrice(double hour) const {
@@ -16,8 +16,8 @@ string BasicRoom::getDetails() const {
 
 PrivateRoom::PrivateRoom() : Room() {}
 
-PrivateRoom::PrivateRoom(int tag, string name, bool situation, double p, string detail)
-    : Room(tag, name, "Private", situation, p, detail) {
+PrivateRoom::PrivateRoom(int tag, string name, bool situation, double p, string detail, int cap)
+    : Room(tag, name, "Private", situation, p, detail, cap) {
 }
 
 double PrivateRoom::calculatePrice(double hour) const {
@@ -30,8 +30,8 @@ string PrivateRoom::getDetails() const {
 
 VIPRoom::VIPRoom() : Room() {}
 
-VIPRoom::VIPRoom(int tag, string name, bool situation, double p, string detail)
-    : Room(tag, name, "VIP", situation, p, detail) {
+VIPRoom::VIPRoom(int tag, string name, bool situation, double p, string detail, int cap)
+    : Room(tag, name, "VIP", situation, p, detail, cap) {
 }
 
 double VIPRoom::calculatePrice(double hour) const {
@@ -44,8 +44,8 @@ string VIPRoom::getDetails() const {
 
 MeetingRoom::MeetingRoom() : Room() {}
 
-MeetingRoom::MeetingRoom(int tag, string name, bool situation, double p, string detail)
-    : Room(tag, name, "Meeting", situation, p, detail) {
+MeetingRoom::MeetingRoom(int tag, string name, bool situation, double p, string detail, int cap)
+    : Room(tag, name, "Meeting", situation, p, detail, cap) {
 }
 
 double MeetingRoom::calculatePrice(double hour) const {
@@ -58,8 +58,8 @@ string MeetingRoom::getDetails() const {
 
 CustomRoom::CustomRoom() : Room() {}
 
-CustomRoom::CustomRoom(int tag, string name, bool situation, double p, string detail)
-    : Room(tag, name, "Custom", situation, p, detail) {
+CustomRoom::CustomRoom(int tag, string name, bool situation, double p, string detail, int cap)
+    : Room(tag, name, "Custom", situation, p, detail, cap) {
 }
 
 double CustomRoom::calculatePrice(double hour) const {
@@ -69,3 +69,4 @@ double CustomRoom::calculatePrice(double hour) const {
 string CustomRoom::getDetails() const {
     return "Custom Room - " + Room::getDetails();
 }
+*/

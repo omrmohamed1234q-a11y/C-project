@@ -1,7 +1,8 @@
 abdo,1234,user
 j,8,user
-abdo,333,user
-omar,444,owner
+abdo,333,customer
+omar,444,customer
 omar,427,tester
 emad,123\,admin
 3,3,3
+emad,123456,owner

@@ -2,6 +2,7 @@
 #include <string>
 #include "core/Login.hpp"
 #include "core/Room.hpp"
+#include "core/Workspace.hpp"
 #include "users/users.h"
 #include "Custumer/costumer.h"
 #include "Owner/Owner.h"
@@ -17,21 +18,37 @@ void displayMainMenu() {
 }
 
 void displayUserMenu() {
-    cout << "\n========== USER MENU ==========\n";
+    cout << "\n========== CUSTOMER MENU ==========\n";
     cout << "1. View Available Rooms\n";
     cout << "2. Book a Room\n";
     cout << "3. Cancel Booking\n";
-    cout << "4. Logout\n";
+    cout << "4. View My Bookings\n";
+    cout << "5. Logout\n";
+    cout << "Enter your choice: ";
+}
+
+void displayOwnerMenu() {
+    cout << "\n========== OWNER MENU ==========\n";
+    cout << "1. View System Stats & Rooms\n";
+    cout << "2. Add a Room\n";
+    cout << "3. Edit a Room\n";
+    cout << "4. Delete a Room\n";
+    cout << "5. Logout\n";
     cout << "Enter your choice: ";
 }
 
 int main() {
-    Login login("data/users.txt");
+    string usersPath = "C:/Users/HP/CLionProjects/C-project-1/data/users.txt";
+    string roomsPath = "C:/Users/HP/CLionProjects/C-project-1/data/rooms.txt";
+    string bookingsPath = "C:/Users/HP/CLionProjects/C-project-1/data/bookings.txt";
+
+    Login login(usersPath);
+    Workspace mainWorkspace("Main Workspace", roomsPath);
+    mainWorkspace.loadRooms();
 
     int mainChoice;
 
     while (true) {
-
         displayMainMenu();
         cin >> mainChoice;
 
@@ -43,111 +60,130 @@ int main() {
         }
 
         switch (mainChoice) {
-
         case 1: {
             cout << "\n--- Registration ---\n";
             login.registerUser();
             break;
         }
-
         case 2: {
             cout << "\n--- Login ---\n";
-
-            if (!login.login()) {
-                cout << "Login failed \n";
-                break;
+            string username, role;
+            if (!login.login(username, role)) {
+                break; // login failed
             }
 
-            int userChoice;
             bool loggedIn = true;
+            
+            if (role == "Customer" || role == "customer") {
+                Custumer currentCustomer(username, username, "", role); // Using username as email/id here
+                currentCustomer.loadBookings(bookingsPath, username);
+                
+                while (loggedIn) {
+                    displayUserMenu();
+                    int userChoice;
+                    cin >> userChoice;
+                    if (cin.fail()) { cin.clear(); cin.ignore(10000, '\n'); continue; }
 
-            while (loggedIn) {
-
-                displayUserMenu();
-                cin >> userChoice;
-
-                if (cin.fail()) {
-                    cin.clear();
-                    cin.ignore(10000, '\n');
-                    cout << "Invalid input. Please enter a number.\n";
-                    continue;
-                }
-
-                switch (userChoice) {
-
-                case 1: {
-                    Room room1(101, "Workspace A", "Office", true, 50.0, "Modern office with AC");
-                    Room room2(102, "Workspace B", "Meeting", true, 30.0, "Meeting room for 10 people");
-                    Room room3(103, "Workspace C", "Private", false, 45.0, "Private workspace");
-
-                    if (room1.isAvailable()) {
-                        cout << "Room " << room1.getId() << " - " << room1.getWorkspaceName()
-                             << " | Price: $" << room1.getPrice()
-                             << " | " << room1.getDetails() << endl;
+                    switch (userChoice) {
+                        case 1: {
+                            mainWorkspace.getRooms();
+                            break;
+                        }
+                        case 2: {
+                            int roomId;
+                            cout << "Enter Room ID to book: ";
+                            cin >> roomId;
+                            currentCustomer.bookRoom(mainWorkspace, roomId);
+                            currentCustomer.saveBookings(bookingsPath, username);
+                            break;
+                        }
+                        case 3: {
+                            int roomId;
+                            cout << "Enter Room ID to cancel: ";
+                            cin >> roomId;
+                            currentCustomer.cancelBooking(mainWorkspace, roomId);
+                            currentCustomer.saveBookings(bookingsPath, username);
+                            break;
+                        }
+                        case 4: {
+                            currentCustomer.viewBookings();
+                            break;
+                        }
+                        case 5: {
+                            cout << "Logging out...\n";
+                            loggedIn = false;
+                            break;
+                        }
+                        default:
+                            cout << "Invalid choice. Try again.\n";
                     }
+                }
+            } else if (role == "Owner" || role == "owner") {
+                Owner currentOwner(username, username, "", role);
+                
+                while (loggedIn) {
+                    displayOwnerMenu();
+                    int ownerChoice;
+                    cin >> ownerChoice;
+                    if (cin.fail()) { cin.clear(); cin.ignore(10000, '\n'); continue; }
 
-                    if (room2.isAvailable()) {
-                        cout << "Room " << room2.getId() << " - " << room2.getWorkspaceName()
-                             << " | Price: $" << room2.getPrice()
-                             << " | " << room2.getDetails() << endl;
+                    switch (ownerChoice) {
+                        case 1: {
+                            currentOwner.viewStats(mainWorkspace);
+                            break;
+                        }
+                        case 2: {
+                            int id, capacity;
+                            double price;
+                            string name, type, details;
+                            cout << "Enter Room ID: "; cin >> id;
+                            cout << "Enter Workspace Name: "; cin >> name;
+                            cout << "Enter Room Type: "; cin >> type;
+                            cout << "Enter Price: "; cin >> price;
+                            cout << "Enter Details: "; cin >> details;
+                            cout << "Enter Capacity: "; cin >> capacity;
+                            
+                            Room newRoom(id, name, type, true, price, details, capacity);
+                            currentOwner.addRoom(mainWorkspace, newRoom);
+                            break;
+                        }
+                        case 3: {
+                            int id;
+                            double newPrice;
+                            string newDetails;
+                            cout << "Enter Room ID to edit: "; cin >> id;
+                            cout << "Enter New Price: "; cin >> newPrice;
+                            cout << "Enter New Details: "; cin >> newDetails;
+                            currentOwner.editRoom(mainWorkspace, id, newPrice, newDetails);
+                            break;
+                        }
+                        case 4: {
+                            int id;
+                            cout << "Enter Room ID to delete: "; cin >> id;
+                            currentOwner.deleteRoom(mainWorkspace, id);
+                            break;
+                        }
+                        case 5: {
+                            cout << "Logging out...\n";
+                            loggedIn = false;
+                            break;
+                        }
+                        default:
+                            cout << "Invalid choice. Try again.\n";
                     }
-
-                    if (room3.isAvailable()) {
-                        cout << "Room " << room3.getId() << " - " << room3.getWorkspaceName()
-                             << " | Price: $" << room3.getPrice()
-                             << " | " << room3.getDetails() << endl;
-                    } else {
-                        cout << "Room 103 is not available\n";
-                    }
-
-                    break;
                 }
-
-                case 2: {
-                    Room room(101, "Workspace A", "Office", true, 50.0, "Modern office with AC");
-
-                    if (room.book()) {
-                        cout << "Room booked successfully!\n";
-                        room.setAvailable(false);
-                    }
-
-                    break;
-                }
-
-                case 3: {
-                    Room room(101, "Workspace A", "Office", false, 50.0, "Modern office with AC");
-
-                    if (room.cancelBooking()) {
-                        cout << "Booking cancelled successfully!\n";
-                        room.setAvailable(true);
-                    }
-
-                    break;
-                }
-
-                case 4: {
-                    cout << "Logging out...\n";
-                    loggedIn = false;
-                    break;
-                }
-
-                default:
-                    cout << "Invalid choice. Try again.\n";
-                }
+            } else {
+                cout << "Unknown role: " << role << "\n";
             }
-
             break;
         }
-
         case 3: {
-            cout << "Thank you for using Booked & Beyond . Goodbye!\n";
+            cout << "Thank you for using Booked & Beyond. Goodbye!\n";
             return 0;
         }
-
         default:
             cout << "Invalid choice. Try again.\n";
         }
     }
-
     return 0;
 }
