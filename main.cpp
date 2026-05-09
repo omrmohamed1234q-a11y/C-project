@@ -1,4 +1,5 @@
 #include <iostream>
+#include <filesystem> // like os.path in python
 #include <string>
 #include "core/Login.hpp"
 #include "core/Room.hpp"
@@ -8,7 +9,7 @@
 #include "Owner/Owner.h"
 
 using namespace std;
-
+namespace fs = std::filesystem;
 void displayMainMenu() {
     cout << "\n==========  Booked & Beyond  ==========\n";
     cout << "1. Register\n";
@@ -38,12 +39,17 @@ void displayOwnerMenu() {
 }
 
 int main() {
-    string usersPath = "C:/Users/HP/CLionProjects/C-project-1/data/users.txt";
-    string roomsPath = "C:/Users/HP/CLionProjects/C-project-1/data/rooms.txt";
-    string bookingsPath = "C:/Users/HP/CLionProjects/C-project-1/data/bookings.txt";
 
-    Login login(usersPath);
-    Workspace mainWorkspace("Main Workspace", roomsPath);
+    fs::path dataPath = fs::current_path() / "data";
+    fs::path usersPath = dataPath / "users.txt";
+    fs::path roomsPath = dataPath / "rooms.txt";
+    fs::path bookingsPath = dataPath / "bookings.txt";
+
+
+
+    Login login(usersPath.string());
+
+    Workspace mainWorkspace("Main Workspace", roomsPath.string());
     mainWorkspace.loadRooms();
 
     int mainChoice;
@@ -76,7 +82,7 @@ int main() {
             
             if (role == "Customer" || role == "customer") {
                 Custumer currentCustomer(username, username, "", role); // Using username as email/id here
-                currentCustomer.loadBookings(bookingsPath, username);
+                currentCustomer.loadBookings(bookingsPath.string(), username);
                 
                 while (loggedIn) {
                     displayUserMenu();
@@ -94,7 +100,7 @@ int main() {
                             cout << "Enter Room ID to book: ";
                             cin >> roomId;
                             currentCustomer.bookRoom(mainWorkspace, roomId);
-                            currentCustomer.saveBookings(bookingsPath, username);
+                            currentCustomer.saveBookings(bookingsPath.string(), username);
                             break;
                         }
                         case 3: {
@@ -102,7 +108,7 @@ int main() {
                             cout << "Enter Room ID to cancel: ";
                             cin >> roomId;
                             currentCustomer.cancelBooking(mainWorkspace, roomId);
-                            currentCustomer.saveBookings(bookingsPath, username);
+                            currentCustomer.saveBookings(bookingsPath.string(), username);
                             break;
                         }
                         case 4: {
