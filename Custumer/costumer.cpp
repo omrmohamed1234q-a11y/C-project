@@ -10,24 +10,24 @@ Custumer::Custumer(string e, string p, string r) : Users(e, p, r) {
 Custumer::Custumer(string n, string e, string p, string r) : Users(n, e, p, r) {
 }
 
-void Custumer::bookRoom(Workspace& workspace, int roomId) {
+string Custumer::bookRoom(Workspace& workspace, int roomId) {
     Room* room = workspace.searchRooms(roomId);
     if (room == NULL) {
-        cout << "Room not found." << endl;
-        return;
+        return "Room not found.";
     }
 
     if (room->book()) {
         bookings.push_back(roomId);
         workspace.saveRooms();
+        return "Room booked successfully.";
     }
+    return "Room is fully booked or unavailable.";
 }
 
-void Custumer::cancelBooking(Workspace& workspace, int roomId) {
+string Custumer::cancelBooking(Workspace& workspace, int roomId) {
     Room* room = workspace.searchRooms(roomId);
     if (room == NULL) {
-        cout << "Room not found." << endl;
-        return;
+        return "Room not found.";
     }
 
     for (auto it = bookings.begin(); it != bookings.end(); ++it) {
@@ -35,11 +35,12 @@ void Custumer::cancelBooking(Workspace& workspace, int roomId) {
             if (room->cancelBooking()) {
                 bookings.erase(it);
                 workspace.saveRooms();
+                return "Booking canceled successfully.";
             }
-            return;
+            return "Failed to cancel room booking.";
         }
     }
-    cout << "This customer has no booking for room " << roomId << "." << endl;
+    return "This customer has no booking for room " + to_string(roomId) + ".";
 }
 
 void Custumer::viewBookings() const {

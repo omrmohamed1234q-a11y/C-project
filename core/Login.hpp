@@ -11,6 +11,6 @@ class Login {
         
     public:
       Login(string filePath);
-      bool login(string& outUsername, string& outRole);
-      void registerUser();
+      bool login(const string& username, const string& password, string& outRole);
+      bool registerUser(const string& username, const string& password, const string& role);
 };

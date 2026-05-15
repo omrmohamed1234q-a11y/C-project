@@ -5,27 +5,26 @@ Owner::Owner(string e, string p, string r) : Users(e, p, r) {
 }
 Owner::Owner(string n, string e, string p, string r) : Users(n, e, p, r) {
 }
-void Owner::addRoom(Workspace& workspace, Room room) {
+string Owner::addRoom(Workspace& workspace, Room room) {
     workspace.addRoom(new Room(room));
-    cout << "Owner added a room." << endl;
+    return "Room added successfully.";
 }
 
-void Owner::editRoom(Workspace& workspace, int roomId, double newPrice, string newDetails) {
+string Owner::editRoom(Workspace& workspace, int roomId, double newPrice, string newDetails) {
     Room* room = workspace.searchRooms(roomId);
     if (room == NULL) {
-        cout << "Room not found." << endl;
-        return;
+        return "Room not found.";
     }
 
     room->setPrice(newPrice);
     room->setDetails(newDetails);
     workspace.saveRooms();
-    cout << "Owner edited a room." << endl;
+    return "Room edited successfully.";
 }
 
-void Owner::deleteRoom(Workspace& workspace, int roomId) {
+string Owner::deleteRoom(Workspace& workspace, int roomId) {
     workspace.removeRoom(roomId);
-    cout << "Owner deleted a room." << endl;
+    return "Room deleted successfully (if it existed).";
 }
 
 void Owner::viewStats(const Workspace& workspace) const {

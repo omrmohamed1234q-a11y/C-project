@@ -6,3 +6,5 @@ omar,427,tester
 emad,123\,admin
 3,3,3
 emad,123456,owner
+mohamad,111,Customer
+emad,111,Owner

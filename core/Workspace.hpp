@@ -23,6 +23,7 @@ class Workspace {
         void removeRoom(int id);
         Room* searchRooms(int id);
         void getRooms() const;
+        const vector<Room*>& getRoomsList() const;
         void addService(string service);
         void addFeedback(string feedback);
         void displayWorkspace() const;

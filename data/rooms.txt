@@ -1,1 +1,4 @@
-1,room1,basic,0,100,basic_room_with_internet,30,5
+1,room1,basic,1,90,Basic room with internet,30,6
+2,main,basic,0,120,Mini_Room,5,5
+3,main,vip,1,700,vip room,5,0
+888,main,basic,1,150,no details,1,0

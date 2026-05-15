@@ -11,9 +11,9 @@ public:
     Owner(string e, string p, string r);
     Owner(string n, string e, string p, string r);
 
-    void addRoom(Workspace& workspace, Room room);
-    void editRoom(Workspace& workspace, int roomId, double newPrice, string newDetails);
-    void deleteRoom(Workspace& workspace, int roomId);
+    string addRoom(Workspace& workspace, Room room);
+    string editRoom(Workspace& workspace, int roomId, double newPrice, string newDetails);
+    string deleteRoom(Workspace& workspace, int roomId);
     void viewStats(const Workspace& workspace)const;
 };
 #endif
